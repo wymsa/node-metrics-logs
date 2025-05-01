@@ -15,7 +15,8 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
-    "tsc-alias": "^1.8.15"
+    "tsc-alias": "^1.8.15",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
