@@ -2,6 +2,7 @@ import promClient from "prom-client";
 
 interface IMetrics {
   register: promClient.Registry;
+  requestCounter: promClient.Counter;
 }
 
 export const initMetrics = async (): Promise<IMetrics> => {
@@ -9,5 +10,12 @@ export const initMetrics = async (): Promise<IMetrics> => {
   register.setDefaultLabels({ app: "nodejs-metrics" });
   promClient.collectDefaultMetrics({ register });
 
-  return { register };
+  const requestCounter = new promClient.Counter({
+    name: "http_request_total",
+    help: "Total number of HTTP requests",
+    labelNames: ['method', 'status'],
+    registers: [register]
+  });
+
+  return { register, requestCounter };
 };

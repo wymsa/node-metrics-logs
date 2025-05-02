@@ -2,6 +2,7 @@ import { createServer, Server } from "http";
 import express, { Request, Response } from "express";
 import helmet from "helmet";
 import { initMetrics } from "./initMetrics";
+import { requestCounterMiddleware } from "@/middlewares/requestCounterMiddleware";
 
 interface IServer {
   server: Server;
@@ -9,12 +10,13 @@ interface IServer {
 
 export const initServer = async (): Promise<IServer> => {
   const expressApp = express();
-  const { register } = await initMetrics();
+  const { register, requestCounter } = await initMetrics();
 
   // middlewares
   expressApp.use(express.json());
   expressApp.use(express.urlencoded({ extended: false }));
   expressApp.use(helmet());
+  expressApp.use(requestCounterMiddleware(requestCounter));
 
   // health check
   expressApp.get("/health", (_req: Request, res: Response) => {

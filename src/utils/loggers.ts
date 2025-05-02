@@ -20,7 +20,7 @@ if (isProduction) {
   );
 } else {
   defaultLoggerTransports.push(
-    new transports.File({ dirname: logsFolderPath, filename: "develop.log" })
+    new transports.File({ dirname: logsFolderPath, filename: "develop.log", level: "error" })
   );
 }
 
