@@ -18,14 +18,14 @@ if (isProduction) {
   defaultLoggerTransports.push(
     new transports.File({ dirname: logsFolderPath, filename: "default.log", level: "error" })
   );
+} else {
+  defaultLoggerTransports.push(
+    new transports.File({ dirname: logsFolderPath, filename: "develop.log" })
+  );
 }
 
 loggers.add("DefaultLogger", {
   format: combine(errors({ stack: true }), timestamp(), json()),
-  transports: [
-    new transports.Console({ format: prettyPrint() }),
-    new transports.File({ dirname: logsFolderPath, filename: "develop.log", level: "error" }),
-    ...defaultLoggerTransports,
-  ],
+  transports: [new transports.Console({ format: prettyPrint() }), ...defaultLoggerTransports],
   defaultMeta: { scope: "DefaultLogger" },
 });

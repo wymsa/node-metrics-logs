@@ -4,7 +4,6 @@ import config from "@/constants/config";
 import { initServer } from "@/server/initServer";
 import { defaultLogger } from "@/utils/logger";
 
-
 initServer()
   .then(({ server }) => {
     server.listen({ port: config.SERVER.PORT }, () => {
