@@ -4,4 +4,7 @@ global:
 scrape_configs:
   - job_name: 'nodejs-metrics-scrap'
     static_configs:
-      - targets: ['host.docker.internal:3000']
+      - targets: ['node-app:3001']
+  # - job_name: 'prometheus-metrics-scrap'
+  #   static_config:
+  #     - targets: ['prometheus:9090']

@@ -5,13 +5,39 @@ services:
       - .env
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
+    networks:
+      - monitoring
     volumes:
       - logs_volume:/app/logs
   prometheus:
     image: prom/prometheus
+    env_file:
+      - .env
     ports:
-      - 9090:9090
+      - ${PROM_PORT}:${PROM_PORT}
+    depends_on:
+      - node-app
+    networks:
+      - monitoring
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  grafana:
+    image: grafana/grafana
+    env_file:
+      - .env
+    ports:
+      - ${GRAFANA_PORT}:${GRAFANA_PORT}
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
 volumes:
-  logs_volume: {}
+  logs_volume:
+  grafana-data:
+networks:
+  monitoring:

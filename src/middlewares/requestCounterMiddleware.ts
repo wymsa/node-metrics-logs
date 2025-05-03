@@ -5,8 +5,9 @@ export const requestCounterMiddleware = (requestCounter: promClient.Counter) => 
     res.on('finish', () => {
         const method = req.method;
         const statusCode = res.statusCode;
+        const path = req.path;
 
-        requestCounter.inc({ method: method, status: statusCode })
+        requestCounter.inc({ method: method, status: statusCode, path: path });
     });
 
     next();

@@ -13,8 +13,8 @@ export const initMetrics = async (): Promise<IMetrics> => {
   const requestCounter = new promClient.Counter({
     name: "http_request_total",
     help: "Total number of HTTP requests",
-    labelNames: ['method', 'status'],
-    registers: [register]
+    labelNames: ["method", "status", "path"],
+    registers: [register],
   });
 
   return { register, requestCounter };
